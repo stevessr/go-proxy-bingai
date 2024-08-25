@@ -63,33 +63,38 @@ jobs:
 
       - name: Build binary
         run: |
-          GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -tags netgo -trimpath -o go-proxy-bingai main.go && tar -zcvf go-proxy-bingai-linux-amd64.tar.gz go-proxy-bingai
-          GOOS=linux GOARCH=arm64 go build -ldflags="-s -w" -tags netgo -trimpath -o go-proxy-bingai main.go && tar -zcvf go-proxy-bingai-linux-arm64.tar.gz go-proxy-bingai
-          GOOS=linux GOARCH=arm GOARM=7 go build -ldflags="-s -w" -tags netgo -trimpath -o go-proxy-bingai main.go && tar -zcvf go-proxy-bingai-linux-armv7.tar.gz go-proxy-bingai
-          GOOS=windows GOARCH=amd64 go build -ldflags="-s -w" -tags netgo -trimpath -o go-proxy-bingai.exe main.go && tar -zcvf go-proxy-bingai-windows-amd64.tar.gz go-proxy-bingai.exe
-          GOOS=windows GOARCH=arm64 go build -ldflags="-s -w" -tags netgo -trimpath -o go-proxy-bingai.exe main.go && tar -zcvf go-proxy-bingai-windows-arm64.tar.gz go-proxy-bingai.exe
-          GOOS=darwin GOARCH=amd64 go build -ldflags="-s -w" -tags netgo -trimpath -o go-proxy-bingai main.go && tar -zcvf go-proxy-bingai-darwin-amd64.tar.gz go-proxy-bingai
-          GOOS=darwin GOARCH=arm64 go build -ldflags="-s -w" -tags netgo -trimpath -o go-proxy-bingai main.go && tar -zcvf go-proxy-bingai-darwin-arm64.tar.gz go-proxy-bingai
-          GOOS=freebsd GOARCH=amd64 go build -ldflags="-s -w" -tags netgo -trimpath -o go-proxy-bingai main.go && tar -zcvf go-proxy-bingai-freebsd-amd64.tar.gz go-proxy-bingai
-          GOOS=freebsd GOARCH=arm64 go build -ldflags="-s -w" -tags netgo -trimpath -o go-proxy-bingai main.go && tar -zcvf go-proxy-bingai-freebsd-arm64.tar.gz go-proxy-bingai
-          GOOS=freebsd GOARCH=arm GOARM=7 go build -ldflags="-s -w" -tags netgo -trimpath -o go-proxy-bingai main.go && tar -zcvf go-proxy-bingai-freebsd-armv7.tar.gz go-proxy-bingai
+         GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -tags netgo -trimpath -o go-proxy-bingai main.go && tar -zcvf go-proxy-bingai-linux-amd64.tar.gz go-proxy-bingai
+         GOOS=linux GOARCH=arm64 go build -ldflags="-s -w" -tags netgo -trimpath -o go-proxy-bingai main.go && tar -zcvf go-proxy-bingai-linux-arm64.tar.gz go-proxy-bingai
+         GOOS=linux GOARCH=arm GOARM=7 go build -ldflags="-s -w" -tags netgo -trimpath -o go-proxy-bingai main.go && tar -zcvf go-proxy-bingai-linux-armv7.tar.gz go-proxy-bingai
+         GOOS=windows GOARCH=amd64 go build -ldflags="-s -w" -tags netgo -trimpath -o go-proxy-bingai.exe main.go && tar -zcvf go-proxy-bingai-windows-amd64.tar.gz go-proxy-bingai.exe
+         GOOS=windows GOARCH=arm64 go build -ldflags="-s -w" -tags netgo -trimpath -o go-proxy-bingai.exe main.go && tar -zcvf go-proxy-bingai-windows-arm64.tar.gz go-proxy-bingai.exe
+         GOOS=darwin GOARCH=amd64 go build -ldflags="-s -w" -tags netgo -trimpath -o go-proxy-bingai main.go && tar -zcvf go-proxy-bingai-darwin-amd64.tar.gz go-proxy-bingai
+         GOOS=darwin GOARCH=arm64 go build -ldflags="-s -w" -tags netgo -trimpath -o go-proxy-bingai main.go && tar -zcvf go-proxy-bingai-darwin-arm64.tar.gz go-proxy-bingai
+         GOOS=freebsd GOARCH=amd64 go build -ldflags="-s -w" -tags netgo -trimpath -o go-proxy-bingai main.go && tar -zcvf go-proxy-bingai-freebsd-amd64.tar.gz go-proxy-bingai
+         GOOS=freebsd GOARCH=arm64 go build -ldflags="-s -w" -tags netgo -trimpath -o go-proxy-bingai main.go && tar -zcvf go-proxy-bingai-freebsd-arm64.tar.gz go-proxy-bingai
+         GOOS=freebsd GOARCH=arm GOARM=7 go build -ldflags="-s -w" -tags netgo -trimpath -o go-proxy-bingai main.go && tar -zcvf go-proxy-bingai-freebsd-armv7.tar.gz go-proxy-bingai
 
-          prerelease: true
-          name: nightly
-          tag_name: nightly
-          body: ${{ env.BODY }}
-          generate_release_notes: true
-          files: |
-            go-proxy-bingai-linux-amd64.tar.gz
-            go-proxy-bingai-linux-arm64.tar.gz
-            go-proxy-bingai-linux-armv7.tar.gz
-            go-proxy-bingai-windows-amd64.tar.gz
-            go-proxy-bingai-windows-arm64.tar.gz
-            go-proxy-bingai-darwin-amd64.tar.gz
-            go-proxy-bingai-darwin-arm64.tar.gz
-            go-proxy-bingai-freebsd-amd64.tar.gz
-            go-proxy-bingai-freebsd-arm64.tar.gz
-            go-proxy-bingai-freebsd-armv7.tar.gz
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        with:
+         tag_name: nightly
+         release_name: "nightly"
+         body: ${{ env.BODY }}
+         prerelease: true
+         generate_release_notes: true
+         files: |
+             go-proxy-bingai-linux-amd64.tar.gz
+             go-proxy-bingai-linux-arm64.tar.gz
+             go-proxy-bingai-linux-armv7.tar.gz
+             go-proxy-bingai-windows-amd64.tar.gz
+             go-proxy-bingai-windows-arm64.tar.gz
+             go-proxy-bingai-darwin-amd64.tar.gz
+             go-proxy-bingai-darwin-arm64.tar.gz
+             go-proxy-bingai-freebsd-amd64.tar.gz
+             go-proxy-bingai-freebsd-arm64.tar.gz
+             go-proxy-bingai-freebsd-armv7.tar.gz
+         token: ${{ secrets.GITHUB_TOKEN }}
+
 
       - uses: actions/upload-artifact@v3
         with:
